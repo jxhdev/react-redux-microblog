@@ -18,7 +18,6 @@ class NewPostForm extends Component {
           <Form.Input
             fluid
             name="title"
-            label="Title"
             placeholder="Title"
             onChange={this.handleChange}
           />
@@ -26,7 +25,6 @@ class NewPostForm extends Component {
         <Form.TextArea
           onChange={this.handleChange}
           name="body"
-          label="Body"
           placeholder="Let your thoughts run wild!"
         />
         <Form.Button>Submit</Form.Button>

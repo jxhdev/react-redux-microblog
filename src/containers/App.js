@@ -23,6 +23,7 @@ class App extends Component {
           <Grid.Row>
             <Grid.Column width={4} />
             <Grid.Column width={8}>
+              <h3>Make A New Blog Post!</h3>
               <NewPostForm />
             </Grid.Column>
             <Grid.Column width={4} />

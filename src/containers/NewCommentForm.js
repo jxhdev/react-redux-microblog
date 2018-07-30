@@ -17,7 +17,7 @@ class NewCommentForm extends Component {
   render() {
     const { value } = this.state;
     return (
-      <Form size="tiny" onSubmit={() => this.handleSubmit(this.state)}>
+      <Form size="small" onSubmit={() => this.handleSubmit(this.state)}>
         <Form.Group size="tiny" widths="equal">
           <Form.Input
             size="tiny"
@@ -32,7 +32,9 @@ class NewCommentForm extends Component {
           name="content"
           placeholder="Leave a comment!"
         />
-        <Form.Button color="green">Add Comment</Form.Button>
+        <Form.Button size="tiny" color="green">
+          Add Comment
+        </Form.Button>
       </Form>
     );
   }

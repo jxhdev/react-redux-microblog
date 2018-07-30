@@ -6,7 +6,11 @@ class TitleList extends Component {
   state = {};
   render() {
     const titles = this.props.titles.map(title => {
-      return <Segment key={title.key}>{title.title}</Segment>;
+      return (
+        <Segment key={title.key}>
+          <strong>{title.title}</strong>
+        </Segment>
+      );
     });
     return <Segment.Group>{titles}</Segment.Group>;
   }
