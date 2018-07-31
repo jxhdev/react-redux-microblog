@@ -36,3 +36,17 @@ export function deletePost(id, post) {
     }
   };
 }
+
+export function editPost(id, post) {
+  return async function(dispatch) {
+    try {
+      const response = await axios.patch(
+        `${BACKEND_URL}/api/posts/${id}`,
+        post
+      );
+      dispatch({ type: 'EDIT_POST', id, post });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+}

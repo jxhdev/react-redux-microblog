@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { editPost } from '../actionCreator';
 
 class EditablePost extends Component {
   state = { title: this.props.title, body: this.props.body };
@@ -8,12 +9,7 @@ class EditablePost extends Component {
   handleChange = (evt, { value }) =>
     this.setState({ [evt.target.name]: evt.target.value });
   handleSubmit = content => {
-    console.log('handling?');
-    this.props.dispatch({
-      type: 'EDIT_POST',
-      id: this.props.id,
-      editedPost: content
-    });
+    this.props.dispatch(editPost(this.props.id, content));
   };
   render() {
     const { value } = this.state;
@@ -25,7 +21,6 @@ class EditablePost extends Component {
             name="title"
             label="Title"
             value={this.state.title}
-            placeholder="Test"
             onChange={this.handleChange}
           />
         </Form.Group>

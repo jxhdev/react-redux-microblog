@@ -72,9 +72,8 @@ export default function rootReducer(state = INITIAL_STATE, action) {
   if (action.type === 'EDIT_POST') {
     const updatedPost = state.posts.map(post => {
       if (post.id === action.id) {
-        post.isEditing = false;
-        post.title = action.editedPost.title;
-        post.body = action.editedPost.body;
+        post.title = action.post.title;
+        post.body = action.post.body;
         return post;
       } else {
         return post;
