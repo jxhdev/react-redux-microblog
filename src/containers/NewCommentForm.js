@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
+import { addComment } from '../actionCreator';
 
 class NewCommentForm extends Component {
   state = {};
@@ -8,17 +9,15 @@ class NewCommentForm extends Component {
   handleChange = (evt, { value }) =>
     this.setState({ [evt.target.name]: evt.target.value });
   handleSubmit = content => {
-    this.props.dispatch({
-      type: 'ADD_COMMENT',
-      id: this.props.postId,
-      content: content
-    });
+    this.props.dispatch(addComment(this.props.postId, content));
+    this.props.toggleComments();
   };
   render() {
     const { value } = this.state;
     return (
-      <Form size="small" onSubmit={() => this.handleSubmit(this.state)}>
-        {/* <Form.Group size="tiny" widths="equal">
+      <div>
+        <Form size="small" onSubmit={() => this.handleSubmit(this.state)}>
+          {/* <Form.Group size="tiny" widths="equal">
           <Form.Input
             size="tiny"
             fluid
@@ -27,20 +26,21 @@ class NewCommentForm extends Component {
             onChange={this.handleChange}
           />
         </Form.Group> */}
-        <Form.TextArea
-          onChange={this.handleChange}
-          name="content"
-          placeholder="Leave a comment!"
-        />
-        <div>
-          <Form.Button size="tiny" color="green">
-            Add Comment
-          </Form.Button>
-          <Form.Button size="tiny" color="grey" onClick={this.props.toggle}>
-            Back
-          </Form.Button>
-        </div>
-      </Form>
+          <Form.TextArea
+            onChange={this.handleChange}
+            name="text"
+            placeholder="Leave a comment!"
+          />
+          <div>
+            <Form.Button size="tiny" color="green">
+              Add Comment
+            </Form.Button>
+          </div>
+        </Form>
+        <Button size="tiny" color="grey" onClick={this.props.toggleComments}>
+          Back
+        </Button>
+      </div>
     );
   }
 }

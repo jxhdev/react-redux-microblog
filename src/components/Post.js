@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Icon, Label } from 'semantic-ui-react';
 import EditablePost from './EditablePost';
 import Comments from './Comments';
+import { throws } from 'assert';
 class Post extends Component {
   state = {
     isEditing: false,
@@ -31,6 +32,7 @@ class Post extends Component {
           <p style={{ textAlign: 'left' }}>{this.props.post.body}</p>
           <div>
             <Comments
+              postId={this.props.post.id}
               comments={this.props.post.comments}
               isViewingComments={this.state.isViewingComments}
               toggle={this.toggleComments}

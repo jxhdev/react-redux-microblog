@@ -136,7 +136,7 @@ export default function rootReducer(state = INITIAL_STATE, action) {
     const addCommentToPost = state.posts.map(post => {
       if (post.id === action.id) {
         // TODO: don't modify state
-        post.comments.comments.push(action.content);
+        post.comments = [...post.comments, action.comment];
         return post;
       } else {
         return post;

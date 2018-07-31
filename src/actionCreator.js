@@ -50,3 +50,17 @@ export function editPost(id, post) {
     }
   };
 }
+
+export function addComment(id, comment) {
+  return async function(dispatch) {
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/posts/${id}/comments`,
+        comment
+      );
+      dispatch({ type: 'ADD_COMMENT', id, comment });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+}
