@@ -1,7 +1,7 @@
-const { Client } = require("pg");
+const { Client } = require('pg');
 
 const client = new Client({
-  connectionString: "postgresql://localhost/microblog-db"
+  connectionString: 'postgresql://localhost/rr-microblog-db'
 });
 
 client.connect();

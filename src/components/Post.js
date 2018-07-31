@@ -3,8 +3,11 @@ import { Button, Icon, Label } from 'semantic-ui-react';
 import EditablePost from './EditablePost';
 import Comments from './Comments';
 class Post extends Component {
+  state = {
+    isEditing: false
+  };
   render() {
-    if (this.props.isEditing === true) {
+    if (this.state.isEditing === true) {
       return (
         <div>
           <h3>Edit Post</h3>
@@ -39,12 +42,16 @@ class Post extends Component {
               <Button
                 color="blue"
                 icon="comment"
-                content={this.props.post.comments.comments.length}
+                content={this.props.post.comments.length}
                 onClick={this.props.toggleComments}
               />
             </Button.Group>
             <Button.Group floated="right" size="mini">
-              <Button color="yellow" onClick={this.props.toggleEdit} icon>
+              <Button
+                color="yellow"
+                onClick={() => this.setState({ isEditing: true })}
+                icon
+              >
                 Edit
               </Button>
               <Button onClick={this.props.delete} color="red" icon>

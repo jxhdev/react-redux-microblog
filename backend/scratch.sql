@@ -1,0 +1,1 @@
+select p.title, p.body, p.id,  c.id as comments_id, c.text from posts p FULL OUTER JOIN comments c ON p.id=c.post_id;

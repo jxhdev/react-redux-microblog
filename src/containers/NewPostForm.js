@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { addPost } from '../actionCreator';
 
 class NewPostForm extends Component {
   state = {};
 
   handleChange = (evt, { value }) =>
     this.setState({ [evt.target.name]: evt.target.value });
-  handleSubmit = content => {
-    this.props.dispatch({ type: 'ADD_POST', content: content });
+  handleSubmit = post => {
+    this.props.dispatch(addPost(post));
   };
   render() {
     const { value } = this.state;

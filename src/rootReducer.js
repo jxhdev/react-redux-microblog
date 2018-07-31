@@ -3,70 +3,62 @@ import uuid from 'uuid';
 let postId = 0;
 const INITIAL_STATE = {
   posts: [
-    {
-      postId: postId++,
-      id: uuid(),
-      key: uuid(),
-      isEditing: false,
-      likes: 0,
-      comments: {
-        comments: [
-          { user: 'jason', content: 'hey' },
-          { user: 'dennis', content: 'jason is cool' }
-        ],
-        isViewingComments: false
-      },
-      title: 'Hello World!',
-      body:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    },
-    {
-      postId: postId++,
-      id: uuid(),
-      key: uuid(),
-      isEditing: false.value,
-      likes: 0,
-      comments: {
-        comments: [{ user: 'jason', content: 'spamming your comments bro' }],
-        isViewingComments: false
-      },
-      title: 'I ate cheesecake today!',
-      body:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    },
-    {
-      postId: postId++,
-      id: uuid(),
-      key: uuid(),
-      isEditing: false.value,
-      likes: 0,
-      comments: {
-        comments: [{ user: 'jason', content: 'jason wuz here' }],
-        isViewingComments: false
-      },
-      title: 'What is the meaning of life?',
-      body:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    }
+    // {
+    //   postId: postId++,
+    //   id: uuid(),
+    //   key: uuid(),
+    //   isEditing: false,
+    //   likes: 0,
+    //   comments: {
+    //     comments: [
+    //       { user: 'jason', content: 'hey' },
+    //       { user: 'dennis', content: 'jason is cool' }
+    //     ],
+    //     isViewingComments: false
+    //   },
+    //   title: 'Hello World!',
+    //   body:
+    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    // },
+    // {
+    //   postId: postId++,
+    //   id: uuid(),
+    //   key: uuid(),
+    //   isEditing: false.value,
+    //   likes: 0,
+    //   comments: {
+    //     comments: [{ user: 'jason', content: 'spamming your comments bro' }],
+    //     isViewingComments: false
+    //   },
+    //   title: 'I ate cheesecake today!',
+    //   body:
+    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    // },
+    // {
+    //   postId: postId++,
+    //   id: uuid(),
+    //   key: uuid(),
+    //   isEditing: false,
+    //   likes: 0,
+    //   comments: {
+    //     comments: [{ user: 'jason', content: 'jason wuz here' }],
+    //     isViewingComments: false
+    //   },
+    //   title: 'What is the meaning of life?',
+    //   body:
+    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    // }
   ]
 };
 
 export default function rootReducer(state = INITIAL_STATE, action) {
+  if (action.type === 'GET_POSTS') {
+    return { ...state, posts: action.posts };
+  }
   if (action.type === 'ADD_POST') {
     return {
       ...state,
-      posts: [
-        ...state.posts,
-        {
-          postId: postId++,
-          id: uuid(),
-          key: uuid(),
-          likes: 0,
-          comments: { comments: [], isViewingComments: false },
-          ...action.content,
-          isEditing: false
-        }
-      ]
+      posts: [...state.posts, action.post]
     };
   }
   if (action.type === 'DELETE_POST') {
@@ -131,7 +123,6 @@ export default function rootReducer(state = INITIAL_STATE, action) {
     return { ...state, posts: dislikePost.sort((a, b) => b.likes - a.likes) };
   }
   if (action.type === 'VIEW_COMMENTS') {
-    console.log('here we are');
     const toggleCommentsView = state.posts.map(post => {
       if (post.id === action.id) {
         post.comments.isViewingComments = !post.comments.isViewingComments;
@@ -145,6 +136,7 @@ export default function rootReducer(state = INITIAL_STATE, action) {
   if (action.type === 'ADD_COMMENT') {
     const addCommentToPost = state.posts.map(post => {
       if (post.id === action.id) {
+        // TODO: don't modify state
         post.comments.comments.push(action.content);
         return post;
       } else {

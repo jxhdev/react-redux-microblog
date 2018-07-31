@@ -3,10 +3,14 @@ import Post from '../components/Post';
 import Comments from '../components/Comments';
 import { connect } from 'react-redux';
 import uuid from 'uuid';
+import { getPosts, deletePost } from '../actionCreator';
 
 class PostList extends Component {
+  componentDidMount() {
+    this.props.dispatch(getPosts());
+  }
   handleDelete = id => {
-    this.props.dispatch({ type: 'DELETE_POST', id: id });
+    this.props.dispatch(deletePost(id));
   };
   render() {
     let posts = this.props.posts.map(post => {
@@ -30,7 +34,7 @@ class PostList extends Component {
               this.props.dispatch({ type: 'VIEW_COMMENTS', id: post.id });
             }}
           />
-          <Comments key={uuid()} postId={post.id} commentsObj={post.comments} />
+          {/* <Comments key={uuid()} postId={post.id} commentsObj={post.comments} /> */}
         </div>
       );
     });

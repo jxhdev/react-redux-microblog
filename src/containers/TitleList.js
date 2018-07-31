@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { getPosts } from '../actionCreator';
 
 class TitleList extends Component {
-  state = {};
+  componentDidMount() {
+    this.props.dispatch(getPosts());
+  }
   render() {
     const titles = this.props.titles.map(title => {
       return (

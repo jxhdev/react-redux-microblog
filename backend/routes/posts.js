@@ -1,20 +1,54 @@
-const db = require("../db");
-const express = require("express");
+const db = require('../db');
+const express = require('express');
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const results = await db.query("SELECT * FROM posts");
-    return res.status(200).json(results.rows);
+    let response = await db.query(
+      'SELECT p.title, p.body, p.id,  c.id as comments_id, c.text from posts p FULL OUTER JOIN comments c ON p.id=c.post_id ORDER BY p.id'
+    );
+    let previousId = response.rows[0].id;
+    let results = response.rows.reduce((all, item, idx) => {
+      if (all.length === 0) {
+        all.push({
+          id: item.id,
+          title: item.title,
+          body: item.body,
+          comments: [{ comment_id: item.comments_id, text: item.text }]
+        });
+        return all;
+      } else {
+        if (item.id === previousId) {
+          all[all.length - 1].comments.push({
+            comment_id: item.comments_id,
+            text: item.text
+          });
+          return all;
+        } else {
+          previousId = item.id;
+          all.push({
+            id: item.id,
+            title: item.title,
+            body: item.body,
+            comments: item.comments_id
+              ? [{ comment_id: item.comments_id, text: item.text }]
+              : []
+          });
+          return all;
+        }
+      }
+    }, []);
+
+    return res.status(200).json(results);
   } catch (e) {
     return next(e);
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const results = await db.query(
-      "INSERT INTO posts (title,body) VALUES ($1,$2) RETURNING *",
+      'INSERT INTO posts (title,body) VALUES ($1,$2) RETURNING *',
       [req.body.title, req.body.body]
     );
     return res.status(201).json(results.rows[0]);
@@ -23,10 +57,10 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const results = await db.query(
-      "UPDATE posts SET title=$1,body=$2 WHERE id=$3 RETURNING *",
+      'UPDATE posts SET title=$1,body=$2 WHERE id=$3 RETURNING *',
       [req.body.title, req.body.body, req.params.id]
     );
     return res.status(200).json(results.rows[0]);
@@ -35,12 +69,24 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
   try {
-    const results = await db.query("DELETE FROM posts WHERE id=$1", [
+    const results = await db.query(
+      'UPDATE posts SET likes=$1 WHERE id=$3 RETURNING *',
+      [req.body.likes, req.params.id]
+    );
+    return res.status(200).json(results.rows[0]);
+  } catch (e) {
+    return next(e);
+  }
+});
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const results = await db.query('DELETE FROM posts WHERE id=$1', [
       req.params.id
     ]);
-    return res.status(200).json({ message: "Post deleted" });
+    return res.status(200).json({ message: 'Post deleted' });
   } catch (e) {
     return next(e);
   }
