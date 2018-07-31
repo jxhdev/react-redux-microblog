@@ -34,7 +34,12 @@ class PostList extends Component {
               this.props.dispatch({ type: 'VIEW_COMMENTS', id: post.id });
             }}
           />
-          {/* <Comments key={uuid()} postId={post.id} commentsObj={post.comments} /> */}
+          <Comments
+            key={uuid()}
+            postId={post.id}
+            comments={post.comments}
+            isViewingComments={false}
+          />
         </div>
       );
     });

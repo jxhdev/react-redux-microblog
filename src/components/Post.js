@@ -4,7 +4,13 @@ import EditablePost from './EditablePost';
 import Comments from './Comments';
 class Post extends Component {
   state = {
-    isEditing: false
+    isEditing: false,
+    isViewingComments: false
+  };
+  toggleComments = () => {
+    this.setState({
+      isViewingComments: !this.state.isViewingComments
+    });
   };
   render() {
     if (this.state.isEditing === true) {
@@ -23,6 +29,13 @@ class Post extends Component {
         <div style={{ marginBottom: '48px' }}>
           <h2>{this.props.post.title}</h2>
           <p style={{ textAlign: 'left' }}>{this.props.post.body}</p>
+          <div>
+            <Comments
+              comments={this.props.post.comments}
+              isViewingComments={this.state.isViewingComments}
+              toggle={this.toggleComments}
+            />
+          </div>
           <div>
             <Button.Group labeled floated="left" size="mini">
               <Button
@@ -43,13 +56,21 @@ class Post extends Component {
                 color="blue"
                 icon="comment"
                 content={this.props.post.comments.length}
-                onClick={this.props.toggleComments}
+                onClick={() =>
+                  this.setState({
+                    isViewingComments: !this.state.isViewingComments
+                  })
+                }
               />
             </Button.Group>
             <Button.Group floated="right" size="mini">
               <Button
                 color="yellow"
-                onClick={() => this.setState({ isEditing: true })}
+                onClick={() =>
+                  this.setState({
+                    isEditing: true
+                  })
+                }
                 icon
               >
                 Edit

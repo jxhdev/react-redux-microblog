@@ -18,7 +18,7 @@ class NewCommentForm extends Component {
     const { value } = this.state;
     return (
       <Form size="small" onSubmit={() => this.handleSubmit(this.state)}>
-        <Form.Group size="tiny" widths="equal">
+        {/* <Form.Group size="tiny" widths="equal">
           <Form.Input
             size="tiny"
             fluid
@@ -26,15 +26,20 @@ class NewCommentForm extends Component {
             placeholder="Username"
             onChange={this.handleChange}
           />
-        </Form.Group>
+        </Form.Group> */}
         <Form.TextArea
           onChange={this.handleChange}
           name="content"
           placeholder="Leave a comment!"
         />
-        <Form.Button size="tiny" color="green">
-          Add Comment
-        </Form.Button>
+        <div>
+          <Form.Button size="tiny" color="green">
+            Add Comment
+          </Form.Button>
+          <Form.Button size="tiny" color="grey" onClick={this.props.toggle}>
+            Back
+          </Form.Button>
+        </div>
       </Form>
     );
   }
