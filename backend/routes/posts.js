@@ -19,7 +19,9 @@ router.get('/', async (req, res, next) => {
             title: item.title,
             body: item.body,
             likes: item.likes,
-            comments: [{ comment_id: item.comments_id, text: item.text }]
+            comments: item.comments_id
+              ? [{ comment_id: item.comments_id, text: item.text }]
+              : []
           });
           return all;
         } else {

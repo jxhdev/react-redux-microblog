@@ -22,13 +22,12 @@ class PostList extends Component {
     if (this.props.posts.length === 0) {
       return (
         <div>
-          <h1>Hey</h1>
+          <h1>React Redux Microblog!</h1>
         </div>
       );
     } else {
       let posts = this.props.posts.map(post => {
         return (
-          // todo: refactor this
           <div key={uuid()}>
             <Post
               post={post}

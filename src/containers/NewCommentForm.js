@@ -17,15 +17,6 @@ class NewCommentForm extends Component {
     return (
       <div>
         <Form size="small" onSubmit={() => this.handleSubmit(this.state)}>
-          {/* <Form.Group size="tiny" widths="equal">
-          <Form.Input
-            size="tiny"
-            fluid
-            name="user"
-            placeholder="Username"
-            onChange={this.handleChange}
-          />
-        </Form.Group> */}
           <Form.TextArea
             onChange={this.handleChange}
             name="text"
