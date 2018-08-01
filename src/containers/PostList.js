@@ -3,7 +3,13 @@ import Post from '../components/Post';
 import Comments from '../components/Comments';
 import { connect } from 'react-redux';
 import uuid from 'uuid';
-import { getPosts, deletePost } from '../actionCreator';
+import {
+  getPosts,
+  deletePost,
+  likePost,
+  dislikePost,
+  deleteComment
+} from '../actionCreator';
 
 class PostList extends Component {
   componentDidMount() {
@@ -13,38 +19,39 @@ class PostList extends Component {
     this.props.dispatch(deletePost(id));
   };
   render() {
-    let posts = this.props.posts.map(post => {
+    if (this.props.posts.length === 0) {
       return (
-        // todo: refactor this
-        <div key={uuid()}>
-          <Post
-            post={post}
-            key={post.key}
-            delete={() => this.handleDelete(post.id)}
-            toggleEdit={() => {
-              this.props.dispatch({ type: 'TOGGLE_EDIT', id: post.id });
-            }}
-            like={() => {
-              this.props.dispatch({ type: 'LIKE_POST', id: post.id });
-            }}
-            dislike={() => {
-              this.props.dispatch({ type: 'DISLIKE_POST', id: post.id });
-            }}
-            toggleComments={() => {
-              this.props.dispatch({ type: 'VIEW_COMMENTS', id: post.id });
-            }}
-          />
-          <Comments
-            key={uuid()}
-            postId={post.id}
-            comments={post.comments}
-            isViewingComments={false}
-          />
+        <div>
+          <h1>Hey</h1>
         </div>
       );
-    });
-
-    return <div>{posts}</div>;
+    } else {
+      let posts = this.props.posts.map(post => {
+        return (
+          // todo: refactor this
+          <div key={uuid()}>
+            <Post
+              post={post}
+              key={post.key}
+              delete={() => this.handleDelete(post.id)}
+              toggleEdit={() => {
+                this.props.dispatch({ type: 'TOGGLE_EDIT', id: post.id });
+              }}
+              like={() => {
+                this.props.dispatch(likePost(post.id));
+              }}
+              dislike={() => {
+                this.props.dispatch(dislikePost(post.id));
+              }}
+              deleteComment={comment_id => {
+                this.props.dispatch(deleteComment(post.id, comment_id));
+              }}
+            />
+          </div>
+        );
+      });
+      return <div>{posts}</div>;
+    }
   }
 }
 

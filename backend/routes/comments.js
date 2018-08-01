@@ -1,10 +1,10 @@
-const db = require("../db");
-const express = require("express");
+const db = require('../db');
+const express = require('express');
 const router = express.Router({ mergeParams: true });
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const results = await db.query("SELECT * FROM comments WHERE post_id=$1", [
+    const results = await db.query('SELECT * FROM comments WHERE post_id=$1', [
       req.params.post_id
     ]);
     return res.json(results.rows.map(v => v.text));
@@ -13,10 +13,10 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const results = await db.query(
-      "INSERT INTO comments (text, post_id) VALUES ($1,$2) RETURNING *",
+      'INSERT INTO comments (text, post_id) VALUES ($1,$2) RETURNING *',
       [req.body.text, req.params.post_id]
     );
     return res.json(results.rows[0]);
@@ -25,10 +25,10 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const results = await db.query(
-      "UPDATE comments SET text=$1 WHERE id=$2 RETURNING *",
+      'UPDATE comments SET text=$1 WHERE id=$2 RETURNING *',
       [req.body.text, req.params.id]
     );
     return res.json(results.rows[0]);
@@ -37,12 +37,12 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/", async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
-    const results = await db.query("DELETE FROM comments WHERE id=$1", [
+    const results = await db.query('DELETE FROM comments WHERE id=$1', [
       req.params.id
     ]);
-    return res.status(204).json({ message: "Post deleted" });
+    return res.status(204).json({ message: 'Comment deleted' });
   } catch (e) {
     return next(e);
   }

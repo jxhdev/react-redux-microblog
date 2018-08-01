@@ -1,0 +1,10 @@
+export const GET_POSTS = 'GET_POSTS';
+export const ADD_POST = 'ADD_POST';
+export const DELETE_POST = 'DELETE_POST';
+export const EDIT_POST = 'EDIT_POST';
+export const TOGGLE_EDIT = 'TOGGLE_EDIT';
+export const LIKE_POST = 'LIKE_POST';
+export const DISLIKE_POST = 'DISLIKE_POST';
+export const VIEW_COMMENTS = 'VIEW_COMMENTS';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';

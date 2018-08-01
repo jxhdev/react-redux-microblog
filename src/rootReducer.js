@@ -96,8 +96,8 @@ export default function rootReducer(state = INITIAL_STATE, action) {
   if (action.type === 'LIKE_POST') {
     const likePost = state.posts
       .map(post => {
-        if (post.id === action.id) {
-          post.likes = post.likes + 1;
+        if (post.id === action.likedPost.id) {
+          post.likes = action.likedPost.likes;
           return post;
         } else {
           return post;
@@ -111,15 +111,15 @@ export default function rootReducer(state = INITIAL_STATE, action) {
   if (action.type === 'DISLIKE_POST') {
     const dislikePost = state.posts
       .map(post => {
-        if (post.id === action.id) {
-          post.likes = post.likes - 1;
+        if (post.id === action.dislikedPost.id) {
+          post.likes = action.dislikedPost.likes;
           return post;
         } else {
           return post;
         }
       })
       .sort((a, b) => b.likes - a.likes);
-    return { ...state, posts: dislikePost.sort((a, b) => b.likes - a.likes) };
+    return { ...state, posts: dislikePost };
   }
   if (action.type === 'VIEW_COMMENTS') {
     const toggleCommentsView = state.posts.map(post => {
@@ -135,14 +135,29 @@ export default function rootReducer(state = INITIAL_STATE, action) {
   if (action.type === 'ADD_COMMENT') {
     const addCommentToPost = state.posts.map(post => {
       if (post.id === action.id) {
-        // TODO: don't modify state
-        post.comments = [...post.comments, action.comment];
+        post.comments = [
+          ...post.comments,
+          { comment_id: action.comment.id, text: action.comment.text }
+        ];
         return post;
       } else {
         return post;
       }
     });
     return { ...state, posts: addCommentToPost };
+  }
+  if (action.type === 'DELETE_COMMENT') {
+    const deleteCommentFromPost = state.posts.map(post => {
+      if (post.id === action.id) {
+        post.comments = post.comments.filter(
+          comment => comment.comment_id !== action.comment_id
+        );
+        return post;
+      } else {
+        return post;
+      }
+    });
+    return { ...state, posts: deleteCommentFromPost };
   }
 
   return { ...state };

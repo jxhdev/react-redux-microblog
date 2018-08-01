@@ -13,6 +13,7 @@ class Post extends Component {
       isViewingComments: !this.state.isViewingComments
     });
   };
+
   render() {
     if (this.state.isEditing === true) {
       return (
@@ -36,6 +37,7 @@ class Post extends Component {
               comments={this.props.post.comments}
               isViewingComments={this.state.isViewingComments}
               toggle={this.toggleComments}
+              deleteComment={this.props.deleteComment}
             />
           </div>
           <div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { getPosts } from '../actionCreator';
+import uuid from 'uuid';
 
 class TitleList extends Component {
   componentDidMount() {
@@ -10,7 +11,7 @@ class TitleList extends Component {
   render() {
     const titles = this.props.titles.map(title => {
       return (
-        <Segment key={title.key}>
+        <Segment key={uuid()}>
           <strong>{title.title}</strong>
         </Segment>
       );
